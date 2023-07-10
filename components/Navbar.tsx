@@ -1,12 +1,28 @@
 import NavbarItem from "@/components/NavbarItem"
 import {BsChevronDown, BsSearch, BsBell} from 'react-icons/bs'
 import MobileMenu from "@/components/MobileMenu"
-import { useCallback, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import AccountMenu from "@/components/AccountMenu"
+
+const TOP_OFFSET = 66
 
 const Navbar = () =>{
     const [showMobileMenu, setShowMobileMenu] = useState(false)
     const [showAccountMenu, setShowAccountMenu] = useState(false)
+    const [showBackground, setShowBackground] = useState(false)
+    useEffect(()=>{
+        const handleScroll = () =>{
+            if(window.scrollY >= TOP_OFFSET){
+                setShowBackground(true)
+            }else{
+                setShowBackground(false)
+            }
+        }
+        window.addEventListener('scroll', handleScroll)
+        return () =>{
+            window.removeEventListener('scroll', handleScroll)
+        }
+    }, [])
     const toggleMobileMenu = useCallback(() =>{
         setShowMobileMenu((current)=> !current)
     }, [])
@@ -15,7 +31,7 @@ const Navbar = () =>{
     }, [])
     return(
         <nav className="w-full fixed z-40">
-            <div className="px-4 md:px-16 py-6 flex flex-row items-center transition duration-500 bg-zinc-900 bg-opacity-90">
+            <div className={`px-4 md:px-16 py-6 flex flex-row items-center transition duration-500 ${showBackground ? 'bg-zinc-90 bg-opacity-90' : ''}`}>
                 <img className="h-4 lg:h-7" src="/images/logo.png" alt="Logo" />
                 <div className="flex-row ml-8 gap-7 hidden lg:flex">
                     <NavbarItem label="Home" />
@@ -27,7 +43,7 @@ const Navbar = () =>{
                 </div>
                 <div onClick={toggleMobileMenu} className="lg:hidden flex flex-row items-center gap-2 ml-8 cursor-pointer relative">
                     <p className="text-white text-sm">Telusuri</p>
-                    <BsChevronDown className="text-white transition" />
+                    <BsChevronDown className={`text-white transition ${showMobileMenu ? 'rotate-100' : 'rotate-0'}`} />
                     <MobileMenu visible={showMobileMenu} />
                 </div>
                 <div className="flex flex-row ml-auto gap-7 items-center">
