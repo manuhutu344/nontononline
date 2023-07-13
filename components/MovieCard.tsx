@@ -21,11 +21,19 @@ const MovieCard:React.FC<MovieCardProps> = ({
                     <p className="text-green-400 font-semibold mt-4">
                         Terbaru Di <span className="text-white">2023</span>
                     </p>
+
                     <div className="flex flex-row mt-4 gap-2 items-center">
                         <p className="text-white text-[10px] lg:text-sm">
                             {data.duration}
                         </p>
                     </div>
+
+                    <div className="flex flex-row mt-4 gap-2 items-center">
+                        <p className="text-white text-[10px] lg:text-sm">
+                            {data.genre}
+                        </p>
+                    </div>
+
                 </div>
             </div>
         </div>
