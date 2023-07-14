@@ -3,11 +3,12 @@ import prismadb from '@/lib/prismadb'
 import serverAuth from "@/lib/serverAuth";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse){
-    if(req.method !== 'GET'){
-        return res.status(405).end()
-    }
+    
     try {
-        await serverAuth(req)
+        if(req.method !== 'GET'){
+            return res.status(405).end()
+        }
+        await serverAuth(req, res)
         const movieCount = await prismadb.movie.count()
         const randomIndex = Math.floor(Math.random() * movieCount)
         const randomMovies = await prismadb.movie.findMany({
